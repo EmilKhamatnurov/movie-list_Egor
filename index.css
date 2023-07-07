@@ -1,0 +1,28 @@
+@import url(../movie-list/reset.css);
+body{
+    font-family: 'Arimo', Arial, sans-serif;
+    color: #F3F6F9;
+    background-color: #181818;
+}
+.container{
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.header{}
+.list{}
+.list__info{}
+.list__info-movie{}
+.list__info-year{}
+.list__title-wrapper{}
+.list__title{}
+.movie{}
+.movie__wrapper{}
+.form{}
+.form__input{}
+.movie__add-btn{}
+.movies__list{}
+.movie__item{}
+.movie__checkbox{}
+.movie__label{}
+.movie__remove-btn{}
