@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список фильмов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <main class="header">
+        <section class="list">
+            <div class="container">
+                <div class="list__info">
+                    <div class="list__info-movie">Список фильмов</div>
+                    <div class="list__info-yaer">2023</div>
+                </div>
+                <div class="list__title-wrapper">
+                    <h1 div class="list__title">Посмотреть фильм</h1>
+                </div>
+            </div>
+        </section>
+        <section class="movies">
+            <div class="container">
+                <div class="movie__wrapper">
+                    <form class="form" id="form">
+                        <input class="form__input" id="form__input" placeholder="Введи название фильма" type="text" required>
+                        <button class="movie__add-btn" id="movie__add-btn">></button>
+                    </form>
+                    <ol class="movies__list" id="movies__list">
+                        <li class="movie__item">
+                            <input class="movie__checkbox" data-index unchecked type="checkbox">
+                            <label class="movie__label" for="">Film #1</label>
+                            <button class="movie__remove-btn"></button>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="index.js"></script>
+</body>
+</html>
