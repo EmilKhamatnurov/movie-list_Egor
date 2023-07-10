@@ -10,29 +10,43 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <main class="header">
-        <section class="list">
+    <main id="header">
+        <section id="list">
             <div class="container">
                 <div class="list__info">
                     <div class="list__info-movie">Список фильмов</div>
                     <div class="list__info-yaer">2023</div>
                 </div>
                 <div class="list__title-wrapper">
-                    <h1 div class="list__title">Посмотреть фильм</h1>
+                    <h1 div class="list__title">Посмотреть</h1>
                 </div>
             </div>
         </section>
-        <section class="movies">
+        <section id="movies">
             <div class="container">
                 <div class="movie__wrapper">
                     <form class="form" id="form">
-                        <input class="form__input" id="form__input" placeholder="Введи название фильма" type="text" required>
-                        <button class="movie__add-btn" id="movie__add-btn">></button>
+                        <input class="form__input" 
+                        id="form__input" 
+                        placeholder="Добавить фильм" 
+                        type="text" required>
+                        <button class="movie__add-btn" id="movie__add-btn"></button>
                     </form>
-                    <ol class="movies__list" id="movies__list">
+                   <ol class="movies__list" id="movies__list">
                         <li class="movie__item">
-                            <input class="movie__checkbox" data-index unchecked type="checkbox">
-                            <label class="movie__label" for="">Film #1</label>
+                            <div class="movie__box">
+                                <input class="movie__checkbox" 
+                                data-index unchecked type="checkbox">
+                                <label class="movie__label" for="">Film #1</label>
+                            </div>
+                            <button class="movie__remove-btn"></button>
+                        </li>
+                        <li class="movie__item">
+                            <div class="movie__box">
+                                <input class="movie__checkbox" 
+                                data-index unchecked type="checkbox">
+                                <label class="movie__label" for="">Film #2</label>
+                            </div>
                             <button class="movie__remove-btn"></button>
                         </li>
                     </ol>
