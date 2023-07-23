@@ -3,10 +3,11 @@ const MIN_TITLE_LENGTH_LIMIT = 0;
 
 const inputNode = document.querySelector('.form__input');//поле ввода
 const addBtnNode = document.querySelector('.movie__add-btn');//кнопка добавить
+const checkedMovieNode = document.querySelector('.movie__checkbox');//зачеркивание пункта
 const moviesListNode = document.querySelector('.movies__list');//список фильмов
 
 let movieList = [];//массив с задачими
-const StorageNode = localStorage;
+const storageNode = localStorage;
 
 //Функции
 
@@ -22,8 +23,7 @@ const clearInput = () => {//функция очистки инпута
 inputNode.addEventListener('input', () => {//проверка колличества символов
     validationInput();
 });
-
-validationInput = () => {
+const validationInput = () => {
     const inputLen = inputNode.value.trim().length;
 
     if (inputLen != 0 || inputLen > MIN_TITLE_LENGTH_LIMIT) {
@@ -42,13 +42,13 @@ validationInput = () => {
     };
 };
 
-saveMovieToStorage = () => {//сохранение в LocalStorage
+const saveMoviesToStorage = () => {//сохранение в LocalStorage
     const movieListStorage = JSON.stringify(movieList);
-    StorageNode.setItem('movieslist', movieListStorage);
+    storageNode.setItem('movieslist', movieListStorage);
 };
 
-loadMoviesFromStorage = () => {
-    const movieListStorage = StorageNode.getItem('moviesList');
+const loadMoviesFromStorage = () => {
+    const movieListStorage = storageNode.getItem('moviesList');
     if (movieListStorage) {
         movieList = JSON.parse(movieListStorage);
         render(movieList);
@@ -99,25 +99,32 @@ const render = (movieList) => {
 
         movieCloseBtn.addEventListener("click", () => {
         const id = movieItem.dataset.id;
-        CloseMovie(movieList, id);
+        closeMovie(movieList, id);
         });
     });
 };
 //Удаление задачи
-const CloseMovie = (movieList, id) => {
+const closeMovie = (movieList, id) => {
     let newMoviesArr = movieList.filter(function (movie) {
       return id !== movie.id;
     });
     render(newMoviesArr);
-    saveMovieToStorage();
-  };
-// const CloseMovie = (movieList, id) => {
-//     let newMoviesArr = movieList.filter(function (movie) {
-//         return id !== movie.id;
-//     });
-//     render(newMoviesArr);
-// };
-  
+    saveMoviesToStorage();
+};
+// Добавить "checked" символ при нажатии на элемент списка
+const checkedMovie = (movieList, id) => {
+    let checkedMoviesArr = movieList.filter(function (movie) {
+      return id !== movie.id;
+    });
+    render(checkedMoviesArr);
+    saveMoviesToStorage();
+};
+
+const checkedMovieHandler = () => {
+    const id = movieItem.dataset.id;
+    checkedMovie(movieList, id);
+};
+
 //Обработчик событий
 
 const addBtnHandler = () => {
@@ -126,8 +133,9 @@ const addBtnHandler = () => {
     validationInput();
     createMovie(movieName);
     render(movieList);
-    saveMovieToStorage();
+    saveMoviesToStorage();
 };
-
+  
 //Слушатель событий
-addBtnNode.addEventListener("click", addBtnHandler);
+addBtnNode.addEventListener('click', addBtnHandler);
+checkedMovieNode.addEventListener('click', checkedMovieHandler);
