@@ -138,7 +138,12 @@ body{
     display: flex;
     align-items: center;
 }
-.movie__checked{
+.movie__checkbox_checked{
+    text-decoration-line: line-through;
+    color: #adadad;
+    background-color: #2f2f2f;
+}
+.movie__label_checked{
     text-decoration-line: line-through;
     color: #adadad;
     background-color: #2f2f2f;
