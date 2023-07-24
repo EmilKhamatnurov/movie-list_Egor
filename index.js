@@ -4,10 +4,11 @@ const MIN_TITLE_LENGTH_LIMIT = 0;
 const inputNode = document.querySelector('.form__input');//поле ввода
 const addBtnNode = document.querySelector('.movie__add-btn');//кнопка добавить
 const moviesListNode = document.querySelector('.movies__list');//список фильмов
-const movieCheckboxNode = document.querySelector('.movie__checkbox');//input пункта
-const movieLabelNode = document.querySelector('.movie__label');//пункт/фильм
+//const movieCheckboxNode = document.querySelector('.movie__checkbox');//input пункта
+//const movieLabelNode = document.querySelector('.movie__label');//пункт/фильм
 
-const CHECKED_CLASS_NAME = 'movie__item_checked';
+const CHECKED_CLASS_NAME = 'movie__item_checked';//пометка для чека фильма
+const STORAGE_LABEL_TASKS = 'moviesList'; //пометка для сохранение в локальное хранилище
 
 let movieList = [];//массив с задачими
 const storageNode = localStorage;
@@ -48,15 +49,17 @@ validationInput = () => {
 
 const saveMoviesToStorage = () => {//сохранение в LocalStorage
     const movieListStorage = JSON.stringify(movieList);
-    storageNode.setItem('moviesList', movieListStorage);
+    storageNode.setItem(STORAGE_LABEL_TASKS, movieListStorage);
 };
 const loadMoviesFromStorage = () => {
-    const movieListStorage = storageNode.getItem('moviesList');
+    const movieListStorage = storageNode.getItem(STORAGE_LABEL_TASKS);
     if (movieListStorage) {
         movieList = JSON.parse(movieListStorage);
-        render(movieList);
+
     }
+    render(movieList);
 };
+//loadMoviesFromStorage();
 window.addEventListener('load', loadMoviesFromStorage);//вызов из localStorage при загрузки 
 
 const createMovie = (movieName) => {//создание списка задач
@@ -102,6 +105,7 @@ const render = (movieList) => {
         const id = movieItem.dataset.id;
         CloseMovie(movieList, id);
         });
+        saveMoviesToStorage();
     });
 };
 //Удаление задачи
@@ -125,7 +129,7 @@ const addBtnHandler = () => {
 };
 
 const activeCheckbox = (e) => {// активация чекбокса
-    if (event.target.classList.contains("movie__checkbox") ||
+    if (e.target.classList.contains("movie__checkbox") ||
     e.target.classList.contains('movie__label')) {
         const movieItem = e.target.closest(".movie__item");
         movieItem.classList.toggle(CHECKED_CLASS_NAME);
