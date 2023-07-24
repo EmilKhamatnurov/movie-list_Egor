@@ -7,6 +7,8 @@ const moviesListNode = document.querySelector('.movies__list');//список ф
 const movieCheckboxNode = document.querySelector('.movie__checkbox');//input пункта
 const movieLabelNode = document.querySelector('.movie__label');//пункт/фильм
 
+const CHECKED_CLASS_NAME = 'movie__item_checked';
+
 let movieList = [];//массив с задачими
 const storageNode = localStorage;
 
@@ -86,7 +88,6 @@ const render = (movieList) => {
 
         movieItem.dataset.id = movie.id;
         movieCheckbox.id = `${Math.random()}`;
-        movieCheckbox.setAttribute("unchecked", "");
         movieCheckbox.setAttribute("type", "checkbox");
         movieLabel.setAttribute("for", `${movieCheckbox.id}`);
         movieCloseBtn.dataset.id = movie.id;
@@ -123,24 +124,15 @@ const addBtnHandler = () => {
     saveMoviesToStorage();
 };
 
-const movieCheckboxHandler = (e) => {
-    if (e.target.classList.contains("movie__checkbox")) {
-        const movieElement = e.target.closest(movieList, id);
-        const movieIndex = getFilmIndex(movieElement);
-        movie[movieIndex].checked = e.target.checked;
-
-        movieElement
-          .querySelector(".movie__label")
-          .classList.toggle("movie__label_checked");
-        movieElement
-          .querySelector(movieCloseBtn)
-          .classList.toggle(movieCloseBtn);
-        movieElement.classList.toggle(movieCloseBtn);
-        saveToLocalStorage();
-      }
-    moviesListNode.classList.toggle('movie__checked');
+const activeCheckbox = (e) => {// активация чекбокса
+    if (event.target.classList.contains("movie__checkbox") ||
+    e.target.classList.contains('movie__label')) {
+        const movieItem = e.target.closest(".movie__item");
+        movieItem.classList.toggle(CHECKED_CLASS_NAME);
+    }
+    saveMoviesToStorage();
 };
 
 //Слушатель событий
 addBtnNode.addEventListener('click', addBtnHandler);
-movieCheckboxNode.addEventListener('click', movieCheckboxHandler);
+moviesListNode.addEventListener('click', activeCheckbox);
