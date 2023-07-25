@@ -106,9 +106,6 @@ body{
     border-radius: 10px;
     background-color: #3A3939;
 }
-.movie__label-checked{
-    font-style: inherit;
-}
 .movie__item:last-child{
     margin: 0 0 10px 0;
 }
@@ -137,16 +134,6 @@ body{
 .movie__label{
     display: flex;
     align-items: center;
-}
-.movie__checkbox_checked{
-    text-decoration-line: line-through;
-    color: #adadad;
-    background-color: #2f2f2f;
-}
-.movie__label_checked{
-    text-decoration-line: line-through;
-    color: #adadad;
-    background-color: #2f2f2f;
 }
 .movie__item_checked{
     text-decoration-line: line-through;

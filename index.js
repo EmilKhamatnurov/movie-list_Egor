@@ -4,8 +4,6 @@ const MIN_TITLE_LENGTH_LIMIT = 0;
 const inputNode = document.querySelector('.form__input');//поле ввода
 const addBtnNode = document.querySelector('.movie__add-btn');//кнопка добавить
 const moviesListNode = document.querySelector('.movies__list');//список фильмов
-//const movieCheckboxNode = document.querySelector('.movie__checkbox');//input пункта
-//const movieLabelNode = document.querySelector('.movie__label');//пункт/фильм
 
 const CHECKED_CLASS_NAME = 'movie__item_checked';//пометка для чека фильма
 const STORAGE_LABEL_TASKS = 'moviesList'; //пометка для сохранение в локальное хранилище
@@ -30,7 +28,6 @@ inputNode.addEventListener('input', () => {//проверка колличест
 
 validationInput = () => {
     const inputLen = inputNode.value.trim().length;
-
     if (inputLen != 0 || inputLen > MIN_TITLE_LENGTH_LIMIT) {
         if (inputLen <= MIN_TITLE_LENGTH_LIMIT) {
             addBtnNode.disabled = true;
@@ -47,6 +44,9 @@ validationInput = () => {
     };
 };
 
+const deleteMoviesFromStorage = () => {
+    storageNode.removeItem(STORAGE_LABEL_TASKS);
+};
 const saveMoviesToStorage = () => {//сохранение в LocalStorage
     const movieListStorage = JSON.stringify(movieList);
     storageNode.setItem(STORAGE_LABEL_TASKS, movieListStorage);
@@ -54,8 +54,9 @@ const saveMoviesToStorage = () => {//сохранение в LocalStorage
 const loadMoviesFromStorage = () => {
     const movieListStorage = storageNode.getItem(STORAGE_LABEL_TASKS);
     if (movieListStorage) {
-        movieList = JSON.parse(movieListStorage);
-
+        movieList = JSON.parse(movieListStorage); 
+    } else {
+        movieList = [];
     }
     render(movieList);
 };
@@ -65,15 +66,17 @@ window.addEventListener('load', loadMoviesFromStorage);//вызов из localSt
 const createMovie = (movieName) => {//создание списка задач
     const movie = { 
         title: movieName,
-        id: `${Math.random()}` 
+        id: `${Math.random()}`,
+        active: true
     };
     movieList.push(movie);
+    saveMoviesToStorage();
+    render(movieList);
     return movie;
 };
 
 const render = (movieList) => {
     moviesListNode.innerHTML = "";
-
     movieList.forEach((movie) => {//массив задач
         const movieItem = document.createElement("li");
         const movieBox = document.createElement("div");
@@ -104,18 +107,26 @@ const render = (movieList) => {
         movieCloseBtn.addEventListener("click", () => {
         const id = movieItem.dataset.id;
         CloseMovie(movieList, id);
+        deleteMoviesFromStorage();
         });
-        saveMoviesToStorage();
     });
 };
 //Удаление задачи
 const CloseMovie = (movieList, id) => {
-    let newMoviesArr = movieList.filter(function (movie) {
-      return id !== movie.id;
-    });
-    render(newMoviesArr);
-    saveMoviesToStorage();
-  };
+    let index = -1;
+    for (let i = 0; i < movieList.length; i++) {
+      if (movieList[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+    if (index >= 0) {
+      movieList.splice(index, 1);
+      render(movieList);
+      saveMoviesToStorage();
+      deleteMoviesFromStorage();
+    }
+};
   
 //Обработчик событий
 
@@ -129,10 +140,16 @@ const addBtnHandler = () => {
 };
 
 const activeCheckbox = (e) => {// активация чекбокса
-    if (e.target.classList.contains("movie__checkbox") ||
-    e.target.classList.contains('movie__label')) {
-        const movieItem = e.target.closest(".movie__item");
+    if (e.target.classList.contains('movie__checkbox') ||
+        e.target.classList.contains('movie__box')) {
+        const movieItem = e.target.closest('.movie__item');
         movieItem.classList.toggle(CHECKED_CLASS_NAME);
+        
+        const movieId = movieItem.dataset.id;
+        const movieIndex = movieList.findIndex(movie => movie.id === movieId);
+        if (movieIndex !== -1) {
+            movieList[movieIndex].active = !movieList[movieIndex].active;
+        }
     }
     saveMoviesToStorage();
 };
